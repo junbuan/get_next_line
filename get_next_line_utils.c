@@ -6,7 +6,7 @@
 /*   By: juho <juho@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/09 22:18:10 by juho              #+#    #+#             */
-/*   Updated: 2026/09/09 23:43:40 by juho             ###   ########.fr       */
+/*   Updated: 2026/09/10 17:37:10 by juho             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		ptr[j++] = pt1[i++];
 	return (ptr[j] = '\0', ptr);
 }
-char *ft_strjoin()
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	target;
 
+	target = (char)c;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == target)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (s[i] == target)
+		return ((char *)&s[i]);
+	return (NULL);
+}
