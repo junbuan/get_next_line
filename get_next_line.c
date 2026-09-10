@@ -6,7 +6,7 @@
 /*   By: juho <juho@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 15:18:51 by juho              #+#    #+#             */
-/*   Updated: 2026/09/09 18:39:22 by juho             ###   ########.fr       */
+/*   Updated: 2026/09/09 23:28:10 by juho             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 char *get_next_line(int fd)
 {
-	
+	static char *buffer;
+
+	read (fd, buffer, BUFFER_SIZE);
 }
