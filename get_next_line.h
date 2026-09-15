@@ -6,7 +6,7 @@
 /*   By: juho <juho@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 15:18:45 by juho              #+#    #+#             */
-/*   Updated: 2026/09/10 22:37:01 by juho             ###   ########.fr       */
+/*   Updated: 2026/09/15 21:38:39 by juho             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-char *get_next_line(int fd);
-
-
+char	*get_next_line(int fd);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 # endif
