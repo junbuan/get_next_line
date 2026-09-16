@@ -6,7 +6,7 @@
 /*   By: juho <juho@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 15:18:51 by juho              #+#    #+#             */
-/*   Updated: 2026/09/15 21:24:07 by juho             ###   ########.fr       */
+/*   Updated: 2026/09/16 21:51:48 by juho             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,25 @@
 char *get_next_line(int fd)
 {
 	static char	*saved;
-    char		buf[BUFFER_SIZE + 1];
-    ssize_t		bytes_read;
-    char		*line;
+	char		buf[BUFFER_SIZE + 1];
+	ssize_t		bytes_read;
+	char		*line;
 	char		*temp;
+	char		*nl;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while ((!ft_strchr(saved,'\n')) || bytes_read <= 0)
+	while (1)
 	{
+		if (ft_strchr(saved, '\n'))
+			break;
 		bytes_read = read (fd, buf, BUFFER_SIZE);
 		temp = saved;
+		if (bytes_read <= 0)
+			break;
+		else if (ft_strchr(temp,'\n'))
+			break;
+		buf[bytes_read] = '\0';
 		saved = ft_strjoin(buf,temp);
 		free (temp);
 	}
@@ -33,13 +41,15 @@ char *get_next_line(int fd)
 		return (NULL);
 	if (!saved)
 		return (NULL);
-	line = ft_substr(saved,0,ft_strchr(saved,'\n'));
+	nl = ft_strchr(saved, '\n');
+	if (nl == NULL)
+	{
+	line = saved;      // the whole leftover IS the final line — no \n to strip
+	saved = NULL;       // nothing left for next time
+	return (line);       // note: no free() here — we're handing "line" ownership to the caller
+	}
+	line = ft_substr(saved, 0, nl - saved);
+	temp = saved;
 	free(saved);
 	return (line);
-
-	 // 1. loop: read into buf, join onto saved, until \n found or read() <= 0
-    // 2. if error (-1) -> clean up, return NULL
-    // 3. if saved is empty/NULL -> return NULL
-    // 4. split saved into line (to return) and new leftover
-    // 5. free old saved, update saved = new leftover, return line
 }
