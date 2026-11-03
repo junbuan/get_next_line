@@ -58,8 +58,6 @@ Each returned line includes the trailing `\n` if one was present in the file; th
 
 **AI usage:** Claude (Anthropic) was used as a learning aid — specifically to talk through why a `static` variable is needed to retain leftover, unprocessed data between separate calls to the function, and to reason through the tradeoffs of different ways to track a separate leftover buffer per file descriptor for the bonus part. All code was written, tested, and debugged independently; AI was not used to generate any of the submitted source files.
 
-<!-- Be specific and honest here about what you actually used it for — staff will ask. -->
-
 ## Algorithm Justification
 
 The core challenge is that `read()` has no concept of "lines" — it just returns however many bytes happen to be available, up to `BUFFER_SIZE`, with no guarantee that a chunk ends neatly at a `\n`. A single `read()` might return half a line, three and a half lines, or an empty result at end-of-file. But `get_next_line` has to hand back **exactly one clean line per call**, so anything read past the end of the current line has to be **saved somewhere** and reused on the *next* call, instead of being discarded.
@@ -72,5 +70,3 @@ That's what makes a `static` variable the right tool here: unlike a normal local
 3. Split the leftover buffer at the first `\n`: the part up to and including it becomes the line returned to the caller; whatever remains after it becomes the new leftover buffer, saved back into `static` storage for the next call.
 
 **For the bonus (multiple file descriptors):** a single `static` variable can only hold one value, so reading two file descriptors alternately with a naive single-fd design would corrupt both — each call would clobber the other fd's leftover data. The fix is to make that one `static` variable hold **a leftover buffer per file descriptor** (indexed by the fd number) rather than a single flat string, so each fd's unread data is tracked independently and reading from one fd never disturbs the state of another.
-
-<!-- Adjust this paragraph to describe your actual per-fd storage: an array indexed by fd (simple, bounded by a max fd count) vs. a linked list of (fd, leftover) pairs (handles arbitrarily large fd numbers, more complex to manage/free). -->
