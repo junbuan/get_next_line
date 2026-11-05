@@ -6,7 +6,7 @@
 /*   By: juho <juho@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 15:18:51 by juho              #+#    #+#             */
-/*   Updated: 2026/11/05 14:29:35 by juho             ###   ########.fr       */
+/*   Updated: 2026/11/05 14:31:05 by juho             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,3 @@ char	*get_next_line(int fd)
 	saved = trim_saved(saved);
 	return (line);
 }
-/*
-int     main(int argc, char **argv)
-{
-	int             fd;
-	char    *line;
-	int             i;
-	
-	if (argc != 2)
-	return (printf("usage: %s file\n", argv[0]), 1);
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	return (perror("open"), 1);
-	i = 1;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("[%d] %s", i++, line);
-                free(line);
-        }
-        close(fd);
-        return (0);
-	}
-*/
